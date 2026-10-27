@@ -139,8 +139,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .health h3{margin:0;font-size:18px;font-weight:600}
 .hk{width:40px;height:40px;border-radius:9px;background:#fff;display:grid;place-items:center;flex:none}
 .health p{margin:0;font-size:15px;line-height:1.45;color:var(--muted)}
-.health-btn{align-self:center;margin-top:8px;height:48px;padding:0 30px;border-radius:24px;background:linear-gradient(180deg,#2F5FA6,#24477E);font-size:17px;font-weight:600;color:var(--text);transition:filter .2s}
-.health-btn:hover{filter:brightness(1.12)}
+.health-btn{align-self:center;margin-top:8px;height:48px;padding:0 30px;border-radius:24px;background:var(--sky);font-size:17px;font-weight:600;color:var(--text);transition:filter .2s}
+.health-btn:hover{background:var(--sky-hover)}.health-btn:active{background:var(--sky-active)}
 .foot{margin-top:16px;font-size:14px;color:var(--muted);display:flex;justify-content:center;text-align:center}
 .foot button{text-decoration:underline;text-underline-offset:2px}
 
@@ -183,7 +183,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 
 /* Hem view */
 .home{display:flex;flex-direction:column;gap:14px;padding-top:8px}
-.ph{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px} /* same header row in every view */
 .ph .gear{margin-right:-8px}
 .home-h h1{margin:0;font-size:24px;font-weight:600}
 .home-h p{margin:2px 0 0;font-size:14px;color:var(--cloud)}
@@ -394,7 +394,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 
 /* Relief view */
 :root{--rose:#B44A7B;--rose-hover:#A43554;--rose-active:#6C153D;--ok:#7BD57E}
-.relief{display:flex;flex-direction:column;gap:20px;padding-top:8px}
+.relief{display:flex;flex-direction:column;gap:20px;padding-top:12px}
 .r-top{display:flex;justify-content:flex-end}
 .gear{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;transition:background .2s}
 .gear:hover{background:var(--card)}
@@ -480,8 +480,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .hc-v b{font-weight:600;color:#F7F5F1;font-variant-numeric:tabular-nums}
 .hc-r .hc-v b{font-size:18px}
 .hc-adj{display:flex;gap:8px}
-.hadj{width:40px;height:40px;border-radius:14px;background:linear-gradient(180deg,#295E9C,#204981);display:grid;place-items:center;transition:filter .2s}
-.hadj:hover{filter:brightness(1.15)}.hadj:disabled{filter:grayscale(1) brightness(.6);cursor:default}
+.hadj{width:40px;height:40px;border-radius:14px;background:var(--sky);display:grid;place-items:center;transition:background .2s}
+.hadj:hover{background:var(--sky-hover)}.hadj:active{background:var(--sky-active)}.hadj:disabled{filter:grayscale(1) brightness(.6);cursor:default}
 .hstop{height:40px;padding:0 16px;border-radius:14px;background:#241C2B;box-shadow:inset 0 0 0 1.5px #703039;color:#EC4145;font-size:15px;font-weight:600;white-space:nowrap;transition:background .2s}
 .hstop:hover{background:#2E2436}
 .htopics{display:flex;flex-direction:column;gap:8px}
@@ -533,13 +533,13 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .irow{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .irow>div:first-child{display:flex;flex-direction:column;gap:6px}
 .iadj{display:flex;gap:8px}
-.iadj button{width:44px;height:44px;border-radius:16px;background:linear-gradient(180deg,#295E9C,#204981);display:grid;place-items:center;transition:filter .2s,transform .1s}
-.iadj button:hover{filter:brightness(1.15)}
+.iadj button{width:44px;height:44px;border-radius:16px;background:var(--sky);display:grid;place-items:center;transition:background .2s,transform .1s}
+.iadj button:hover{background:var(--sky-hover)}.iadj button:active{background:var(--sky-active)}
 .iadj button:active{transform:scale(.95)}
 .iadj button:disabled{filter:grayscale(1) brightness(.6);cursor:default}
-.dbtn.main.ramp{background:linear-gradient(180deg,#2F5FA6,#24477E)}
-.dbtn.main.ramp:hover{background:linear-gradient(180deg,#3A74C2,#2C5A9A)}
-.dbtn.main.ramp:active{background:linear-gradient(180deg,#22497F,#1A3863)}
+.dbtn.main.ramp{background:var(--sky)}
+.dbtn.main.ramp:hover{background:var(--sky-hover)}
+.dbtn.main.ramp:active{background:var(--sky-active)}
 .dbtn.main.ramp:disabled{background:var(--faint)}
 .dbtn.stop.live{color:#EC4145;box-shadow:inset 0 0 0 1.5px #703039}
 .dring .kvar{position:absolute;left:0;right:0;top:62%;text-align:center;font-size:14px;color:#7890A7}
@@ -1023,7 +1023,10 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .cel-txt h2,.cel-txt p{margin:0}
 .cel.incard .cel-bg{border-radius:10px;background:radial-gradient(circle at 50% 32%,color-mix(in srgb,var(--glow) 36%,#2B304D) 0,#2B304D 68%)}
 .cel.incard .cel-art{width:160px;height:160px}
-.cel.incard .cel-med{width:108px;height:108px}
+.cel.incard .cel-med{width:108px;height:108px;opacity:1;transform:scale(.88)}
+.cel.incard .cel-bg{opacity:1;transition:none}
+.cel.incard.on .cel-med{animation:celPop .6s cubic-bezier(.3,1.5,.5,1) forwards}
+.cel.incard .cel-txt{transition-delay:.15s,.15s}
 .cel.incard .cel-shine{inset:26px}
 .cel.incard .cel-txt h2{font-size:22px;line-height:28px}
 .cel.incard .cel-btn{max-width:none}
@@ -1109,6 +1112,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .screen{padding-top:0;padding-bottom:16px}
 .phone::before{content:"";flex:none;height:24px;background:#0F1525} /* thin solid strip: iOS blurs only this, so scrolled content never enters the blur zone */ /* the status-bar space scrolls with the content instead of a fixed band */
 #vHem .home,.relief,.daily{padding-top:4px}
+#vDagbok>header.home-h{margin-top:4px!important}
 .tabbar{padding-bottom:12px!important} /* 12px under the tab icons */
 }
 </style>
@@ -1250,7 +1254,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
       <div class="batt" aria-label="Enhetens batteri 57 procent"><svg width="34" height="18" viewBox="0 0 34 18" fill="none"><rect x="1" y="1" width="28" height="16" rx="4" stroke="#7BD57E" stroke-width="1.5"/><rect x="4" y="4" width="13" height="10" rx="2" fill="#7BD57E"/><path d="M31.5 6.5v5" stroke="#7BD57E" stroke-width="2" stroke-linecap="round"/></svg>57%</div>
       <article class="ses">
         <svg width="22" height="30" viewBox="0 0 22 30" fill="#B44A7B"><path d="M13.5 1 3 17h7.5L8.5 29 19 13h-7.5L13.5 1Z"/></svg>
-        <div><h3>Akut session</h3><p>Akut. Används i samband med migränanfall.</p></div>
+        <div><h3>Akut session</h3><p>Används i samband med migränanfall.</p></div>
         <div class="ses-r"><span class="dur">60 MIN</span><button class="play" data-ses="Akut session" data-min="60" aria-label="Starta akut session"><svg width="18" height="20" viewBox="0 0 18 20" fill="#F7F5F1"><path d="M3 2.5v15l13-7.5-13-7.5Z"/></svg></button></div>
       </article>
       <article class="ses">
@@ -1264,7 +1268,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 </div>
 
 <div class="app" id="vDagbok" style="padding-bottom:45vh">
-  <header class="home-h" style="margin:8px 0 8px"><div class="ph"><h1>Dagbok</h1><button class="gear" data-gear aria-label="Inställningar"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path fill="#F7F5F1" fill-rule="evenodd" d="M13.95 3.55 L14.60 1.11 L15.40 1.11 L16.05 3.55 L17.22 3.72 L18.53 1.56 L19.30 1.78 L19.23 4.31 L20.31 4.80 L22.18 3.10 L22.85 3.53 L22.07 5.93 L22.97 6.71 L25.24 5.60 L25.76 6.20 L24.34 8.29 L24.98 9.29 L27.47 8.87 L27.80 9.59 L25.85 11.20 L26.19 12.33 L28.70 12.63 L28.81 13.42 L26.48 14.41 L26.48 15.59 L28.81 16.58 L28.70 17.37 L26.19 17.67 L25.85 18.80 L27.80 20.41 L27.47 21.13 L24.98 20.71 L24.34 21.71 L25.76 23.80 L25.24 24.40 L22.97 23.29 L22.07 24.07 L22.85 26.47 L22.18 26.90 L20.31 25.20 L19.23 25.69 L19.30 28.22 L18.53 28.44 L17.22 26.28 L16.05 26.45 L15.40 28.89 L14.60 28.89 L13.95 26.45 L12.78 26.28 L11.47 28.44 L10.70 28.22 L10.77 25.69 L9.69 25.20 L7.82 26.90 L7.15 26.47 L7.93 24.07 L7.03 23.29 L4.76 24.40 L4.24 23.80 L5.66 21.71 L5.02 20.71 L2.53 21.13 L2.20 20.41 L4.15 18.80 L3.81 17.67 L1.30 17.37 L1.19 16.58 L3.52 15.59 L3.52 14.41 L1.19 13.42 L1.30 12.63 L3.81 12.33 L4.15 11.20 L2.20 9.59 L2.53 8.87 L5.02 9.29 L5.66 8.29 L4.24 6.20 L4.76 5.60 L7.03 6.71 L7.93 5.93 L7.15 3.53 L7.82 3.10 L9.69 4.80 L10.77 4.31 L10.70 1.78 L11.47 1.56 L12.78 3.72Z M25.0 15 A10.0 10.0 0 1 0 5.0 15 A10.0 10.0 0 1 0 25.0 15Z"/><circle cx="15" cy="15" r="2.1" fill="none" stroke="#F7F5F1" stroke-width="1.4"/><path d="M17.60 15.00 L25.30 15.00 M13.70 17.25 L9.85 23.92 M13.70 12.75 L9.85 6.08" stroke="#F7F5F1" stroke-width="1.4" stroke-linecap="round"/></svg></button></div></header>
+  <header class="home-h" style="margin:12px 0 8px"><div class="ph"><h1>Dagbok</h1><button class="gear" data-gear aria-label="Inställningar"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path fill="#F7F5F1" fill-rule="evenodd" d="M13.95 3.55 L14.60 1.11 L15.40 1.11 L16.05 3.55 L17.22 3.72 L18.53 1.56 L19.30 1.78 L19.23 4.31 L20.31 4.80 L22.18 3.10 L22.85 3.53 L22.07 5.93 L22.97 6.71 L25.24 5.60 L25.76 6.20 L24.34 8.29 L24.98 9.29 L27.47 8.87 L27.80 9.59 L25.85 11.20 L26.19 12.33 L28.70 12.63 L28.81 13.42 L26.48 14.41 L26.48 15.59 L28.81 16.58 L28.70 17.37 L26.19 17.67 L25.85 18.80 L27.80 20.41 L27.47 21.13 L24.98 20.71 L24.34 21.71 L25.76 23.80 L25.24 24.40 L22.97 23.29 L22.07 24.07 L22.85 26.47 L22.18 26.90 L20.31 25.20 L19.23 25.69 L19.30 28.22 L18.53 28.44 L17.22 26.28 L16.05 26.45 L15.40 28.89 L14.60 28.89 L13.95 26.45 L12.78 26.28 L11.47 28.44 L10.70 28.22 L10.77 25.69 L9.69 25.20 L7.82 26.90 L7.15 26.47 L7.93 24.07 L7.03 23.29 L4.76 24.40 L4.24 23.80 L5.66 21.71 L5.02 20.71 L2.53 21.13 L2.20 20.41 L4.15 18.80 L3.81 17.67 L1.30 17.37 L1.19 16.58 L3.52 15.59 L3.52 14.41 L1.19 13.42 L1.30 12.63 L3.81 12.33 L4.15 11.20 L2.20 9.59 L2.53 8.87 L5.02 9.29 L5.66 8.29 L4.24 6.20 L4.76 5.60 L7.03 6.71 L7.93 5.93 L7.15 3.53 L7.82 3.10 L9.69 4.80 L10.77 4.31 L10.70 1.78 L11.47 1.56 L12.78 3.72Z M25.0 15 A10.0 10.0 0 1 0 5.0 15 A10.0 10.0 0 1 0 25.0 15Z"/><circle cx="15" cy="15" r="2.1" fill="none" stroke="#F7F5F1" stroke-width="1.4"/><path d="M17.60 15.00 L25.30 15.00 M13.70 17.25 L9.85 23.92 M13.70 12.75 L9.85 6.08" stroke="#F7F5F1" stroke-width="1.4" stroke-linecap="round"/></svg></button></div></header>
   <section class="cal" aria-label="Kalender">
     <div class="cal-nav">
       <button class="round" id="prev" aria-label="Föregående månad"><svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#D2E4E9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
