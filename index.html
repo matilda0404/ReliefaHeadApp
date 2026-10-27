@@ -1120,7 +1120,13 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 @media (hover:none){
 .dbtn.main.ramp:hover:not(:disabled),.dbtn.main.hold:hover:not(:disabled),.iadj button:hover:not(:disabled),.hadj:hover:not(:disabled),.health-btn:hover,.save:hover,.pop-ok:hover,.syn:hover,.hsup-b:hover,.pill.on:hover{background:var(--sky)}
 .pill:not(.on):hover{background:var(--faint)}
+/* while the finger is down: a subtle shift to a deeper Clear Sky, back the moment it lifts */
+.dbtn.main.ramp:hover:active:not(:disabled),.dbtn.main.hold:hover:active:not(:disabled),.iadj button:hover:active:not(:disabled),.hadj:hover:active:not(:disabled),.health-btn:hover:active,.save:hover:active,.pop-ok:hover:active,.syn:hover:active,.hsup-b:hover:active,.pill.on:hover:active,.cmp-tog.on:active{background:#3242AE}
+.pill:not(.on):hover:active{background:#474D63}
 }
+/* every button gives way a little under the finger, like the cards on Hem */
+.pressing{scale:.97}
+.pressing.wide{scale:.985}
 </style>
 
 <div class="stage">
@@ -3197,6 +3203,16 @@ function fit(){
 }
 addEventListener('resize',fit); fit();
 buildCards(); renderCal(); renderCards(true);
+})();
+
+// press feedback for every button: shrinks a touch while held, springs back on release
+(()=>{ const SEL='button,[role=button],summary,.tile'; let cur=null;
+  const up=()=>{ if(cur){ cur.classList.remove('pressing'); cur=null; } };
+  document.addEventListener('pointerdown',ev=>{ const el=ev.target.closest(SEL); if(!el||el.disabled||el.closest('.wheel')) return;
+    if(!el.dataset.pressT){ const t=getComputedStyle(el).transition; el.style.transition=(t&&t!=='all 0s ease 0s'?t+', ':'')+'scale .15s cubic-bezier(.3,.7,.2,1)'; el.dataset.pressT='1'; }
+    el.classList.toggle('wide',el.offsetWidth>240); up(); cur=el; el.classList.add('pressing'); },{passive:true});
+  ['pointerup','pointercancel','dragstart','scroll'].forEach(t=>document.addEventListener(t,up,{passive:true,capture:true}));
+  document.addEventListener('touchstart',()=>{},{passive:true}); // lets iPhone show :active while pressed
 })();
 </script>
 
