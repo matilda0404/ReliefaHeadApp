@@ -170,7 +170,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .band{position:absolute;left:0;right:0;top:88px;height:44px;border-radius:12px;background:var(--faint);pointer-events:none}
 .wheel.drag{scroll-snap-type:none;cursor:grabbing}
 .wheel{position:relative;height:220px;overflow-y:auto;scroll-snap-type:y mandatory;cursor:grab;user-select:none;scrollbar-width:none;overscroll-behavior:contain;
-  -webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);touch-action:pan-y}
+  -webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);touch-action:none}
 .wheel::-webkit-scrollbar{display:none}
 .wheel ul{list-style:none;margin:0;padding:88px 0}
 .wheel li{height:44px;display:grid;align-items:center;justify-items:end;scroll-snap-align:center;font-size:22px;font-variant-numeric:tabular-nums;color:var(--cloud);opacity:.35;cursor:pointer;transition:opacity .15s,font-size .15s}
@@ -1788,10 +1788,10 @@ const ROW=44; let sheetKey=null, lastFocus=null;
 function fill(w,max){w.querySelector('ul').innerHTML=Array.from({length:max+1},(_,i)=>'<li data-i="'+i+'">'+i+'</li>').join('');
   w.querySelectorAll('li').forEach(li=>li.addEventListener('click',()=>{if(w.dataset.justDragged) return; w.scrollTo({top:+li.dataset.i*ROW,behavior:'smooth'});}));
   let raf=0; w.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>paint(w));},{passive:true});
-  // Mouse drag (touch and trackpads scroll natively): follow the pointer, then glide and snap to the nearest number
+  // Finger and mouse drag: follow the pointer, then glide and snap to the nearest number (iPhone's own scrolling was unreliable in the sheet)
   let drag=null;
   w.addEventListener('pointerdown',ev=>{
-    if(ev.pointerType!=='mouse') return;
+    ev.preventDefault();
     drag={y:ev.clientY,top:w.scrollTop,t:performance.now(),v:0,moved:false};
     w.classList.add('drag'); w.setPointerCapture(ev.pointerId);
   });
