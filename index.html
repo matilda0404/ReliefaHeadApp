@@ -1115,6 +1115,12 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 #vDagbok>header.home-h{margin-top:4px!important}
 .tabbar{padding-bottom:12px!important} /* 12px under the tab icons */
 }
+
+/* touch screens keep :hover after a tap; there, blue buttons return to Clear Sky as soon as the finger lifts */
+@media (hover:none){
+.dbtn.main.ramp:hover:not(:disabled),.dbtn.main.hold:hover:not(:disabled),.iadj button:hover:not(:disabled),.hadj:hover:not(:disabled),.health-btn:hover,.save:hover,.pop-ok:hover,.syn:hover,.hsup-b:hover,.pill.on:hover{background:var(--sky)}
+.pill:not(.on):hover{background:var(--faint)}
+}
 </style>
 
 <div class="stage">
