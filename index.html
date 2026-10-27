@@ -1104,21 +1104,9 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .msp-nearbox .msp-nct b{font-size:14px;line-height:18px;overflow:visible}
 
 @media (max-width:499px){
-/* full-screen app on iPhone: denser layout so more fits on one screen */
-.screen{padding-top:0;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));padding-bottom:16px}
+/* full-screen app on iPhone: only trim the space at the very top and bottom; the content keeps its own spacing */
+.screen{padding-top:0;padding-bottom:16px}
 #vHem .home,.relief,.daily{padding-top:4px}
-#vHem .home{gap:14px;padding-bottom:12px}
-.home-h h1{font-size:22px}#vHem .home-h p{margin-top:2px}
-.dd{padding:14px 16px;gap:10px}.task{height:96px}
-#vHem .month-sec{padding:10px 10px 12px;gap:12px}#vHem .ms-nav{padding:2px 6px 0}
-#vHem .inner-card{padding:12px 14px}
-#vHem .month-sec .chart{margin-top:50px}
-.chart .plot{height:140px;background-size:100% 28px}.chart .yl{height:156px}
-.chart .plot i{background-size:100% 140px,auto!important}.chart .plot i.hl{background-size:100% 140px,auto!important}
-#vHem .stats{padding:12px;gap:12px}#vHem #msView{gap:12px!important}#vHem .tiles{gap:8px}#vHem .tile{padding:10px 12px;gap:4px}
-.relief{gap:14px}.vid{margin-top:10px}.vtext{margin-top:8px}.search-h{margin:16px 0 10px}.ses{padding:12px 10px 12px 16px}.play{width:56px;height:56px}
-.cal{gap:10px}.days{row-gap:4px}.day{width:36px;height:36px}.head{padding:12px 14px}.dayline{padding:4px 2px 2px}
-.daily,.daily.running{min-height:0;gap:10px}.dring,.running .dring{width:240px}.dinstr{min-height:0}
 }
 </style>
 
