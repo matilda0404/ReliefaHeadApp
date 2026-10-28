@@ -67,6 +67,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .day.out{color:var(--muted);opacity:.65}
 .day:disabled{color:var(--muted);opacity:.65;cursor:default}
 .day.today:not(.sel){box-shadow:inset 0 0 0 1px var(--faint)}
+.day.today{color:#F7F5F1;opacity:1} /* today is always readable */
 .day.sel{background:var(--sky);font-weight:500}
 .day.painc:not(.sel){color:var(--pc);font-weight:500}
 .day .mk{position:absolute;left:0;right:0;bottom:3px;height:8px;display:flex;justify-content:center;align-items:center;gap:3px;pointer-events:none}
@@ -1115,7 +1116,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .screen{padding-top:0;padding-bottom:16px}
 .phone::before{content:"";flex:none;height:24px;background:#0F1525} /* thin solid strip: iOS blurs only this, so scrolled content never enters the blur zone */ /* the status-bar space scrolls with the content instead of a fixed band */
 #vHem .home,.relief,.daily{padding-top:4px}
-#vDagbok>header.home-h{margin-top:4px!important}
+#vDagbok>.cal{margin-top:4px!important}
 .tabbar{padding-bottom:12px!important} /* 12px under the tab icons */
 }
 
@@ -1141,6 +1142,51 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 
 /* type scale: buttons stay at 15px so they keep a little weight */
 .save,.dbtn,.btn,.pill,.pop-ok,.cbtn,.syn,.done-btn,.health-btn,.hstop,.hsup-b,.back,.sym .pill{font-size:15px}
+
+/* finished daily session: the acute "done" badge at the size of the session ring — green ring, soft green disc, check */
+.dcheck{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.6);opacity:0;transition:opacity var(--t-base),transform var(--t-base) var(--ease-spring)}
+.daily.done .dcheck{opacity:1;transform:translate(-50%,-50%)}
+.dring svg.dcheck{width:100px;height:76px}
+.dring::before{content:"";position:absolute;inset:17.5%;border-radius:50%;background:color-mix(in srgb,var(--ok) 16%,transparent);opacity:0;transform:scale(.85);transition:opacity var(--t-base),transform var(--t-base) var(--ease)}
+.daily.done .dring::before{opacity:1;transform:none}
+.daily.done .dring .time,.daily.done .kvar,.daily.done .dlvl{display:none}
+.daily.done #dArc{stroke:#7BD57E;transition:stroke var(--t-base),stroke-dashoffset var(--t-base) var(--ease)!important}
+.daily.done .d-help{display:none}
+.ddone{width:100%;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;min-height:5.8em}
+.ddone h2{margin:0;font-size:20px;font-weight:500;color:#F7F5F1}
+.ddone p{margin:0;font-size:14px;color:#D2E4E9}
+/* keep the same layout in every state so the two buttons never jump: before, during and after the session */
+.dinstr{min-height:5.8em}
+#dICard[hidden]{display:flex!important;visibility:hidden}
+.daily.done #dPhase[hidden]{display:flex!important;visibility:hidden}
+.daily.done #dICard,.daily.done #dMain{visibility:hidden}
+
+/* acute follow-up: "Spara" stays disabled until every question is answered */
+#runClose:disabled,#runClose:disabled:hover,#runClose:disabled:active{background:color-mix(in srgb,var(--sky) 38%,var(--bg));color:rgba(247,245,241,.55);cursor:default}
+
+/* session view: a little tighter so both buttons stay above the tab bar in every state */
+.daily,.daily.running,.daily:not(.running){gap:10px}
+.dring,.running .dring{margin:0 0 2px}
+.dbtns{margin-top:2px}
+.daily .icard{padding:12px 16px}
+
+/* finish buttons sit a step higher: daily "Avsluta" in the upper button slot, acute "Spara" lifted from the bottom edge */
+.daily.done #dClose{transform:translateY(-54px)}
+#runDone .run-actions{margin-bottom:48px}
+
+/* "Starta session": label centred, play icon keeps its 10px gap after it */
+#dMain:not(.ramp):not(.hold){padding-left:25px}
+/* instruction sits a little further below the ring (visual shift only, buttons keep their place) */
+.dinstr{position:relative;top:36px}
+/* before start: the text runs the full width of the buttons */
+.daily:not(.running) .dinstr{text-wrap:wrap;width:100%}
+
+/* device status lives inside the ring, under the timer, before and during the session */
+.dring .dring-dev{position:absolute;left:50%;top:72%;transform:translateX(-50%);height:28px;padding:0 11px}
+.daily.done .dring-dev{display:none}
+.dring .dring-dev svg{width:22px;height:12px;transform:none;flex:none}
+.dring .dring-dev .dev-dot{width:7px;height:7px;flex:none}
+#dBatt{visibility:hidden} /* keeps its slot so the ring does not move */
 </style>
 
 <div class="stage">
@@ -1243,9 +1289,11 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
       <svg viewBox="0 0 310 310" aria-hidden="true"><circle cx="155" cy="155" r="152" fill="none" stroke="#292F42" stroke-width="3"/><circle id="dArc" cx="155" cy="155" r="152" fill="none" stroke="#B44A7B" stroke-width="3" stroke-linecap="round" stroke-dasharray="955.04" stroke-dashoffset="0" style="transition:stroke-dashoffset .4s linear"/></svg>
       <div class="time" id="dTime" role="timer" aria-live="off">15:00</div>
       <div class="kvar" id="dKvar" hidden>kvar</div>
+      <svg class="dcheck" id="dCheck" width="100" height="76" viewBox="0 0 34 26" fill="none" aria-hidden="true"><path d="M3 13.5 12 22 31 3" stroke="#7BD57E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <div class="dlvl" id="dLvl" hidden></div>
     </div>
     <p class="dinstr" id="dInstr">Tryck ”Starta session” för att påbörja din behandling. Intensiteten kommer då öka varsamt. Tryck sedan på ”Pausa ökning” när du känner ett starkt men behagligt stickande.</p>
+    <div class="ddone" id="dDone" hidden><h2>Session genomförd</h2><p>Din dagliga session är registrerad.</p></div>
     <div class="icard" id="dICard" hidden>
       <div class="irow"><div><div class="il">Intensitet</div><div class="iv" id="dIv">0%</div></div>
         <div class="iadj" id="dAdj" hidden><button id="dMinus" aria-label="Minska intensiteten"><svg width="16" height="2" viewBox="0 0 16 2"><path d="M1 1h14" stroke="#F7F5F1" stroke-width="2" stroke-linecap="round"/></svg></button><button id="dPlus" aria-label="Öka intensiteten"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M1 8h14M8 1v14" stroke="#F7F5F1" stroke-width="2" stroke-linecap="round"/></svg></button></div>
@@ -1255,8 +1303,9 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
     <div class="dbtns" id="dBtns">
       <button class="dbtn main" id="dMain">Starta session <svg width="15" height="17" viewBox="0 0 15 17" fill="#F7F5F1"><path d="M1 1v15l13-7.5L1 1Z"/></svg></button>
       <button class="dbtn stop" id="dStop" disabled>Avsluta session</button>
+      <button class="dbtn main ramp" id="dClose" hidden>Avsluta</button>
     </div>
-    <div class="dconfirm" id="dConfirm" hidden><p>Vill du avsluta sessionen nu?</p><div class="row"><button class="btn sec" id="dKeep">Fortsätt</button><button class="btn pri" id="dEnd">Avsluta</button></div></div>
+        <div class="dconfirm" id="dConfirm" hidden><p>Vill du avsluta sessionen nu?</p><div class="row"><button class="btn sec" id="dKeep">Fortsätt</button><button class="btn pri" id="dEnd">Avsluta</button></div></div>
   </div>
 </div>
 
@@ -1293,8 +1342,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 </div>
 
 <div class="app" id="vDagbok" style="padding-bottom:45vh">
-  <header class="home-h" style="margin:12px 0 8px"><div class="ph"><h1>Dagbok</h1><button class="gear" data-gear aria-label="Inställningar"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path fill="#F7F5F1" fill-rule="evenodd" d="M13.95 3.55 L14.60 1.11 L15.40 1.11 L16.05 3.55 L17.22 3.72 L18.53 1.56 L19.30 1.78 L19.23 4.31 L20.31 4.80 L22.18 3.10 L22.85 3.53 L22.07 5.93 L22.97 6.71 L25.24 5.60 L25.76 6.20 L24.34 8.29 L24.98 9.29 L27.47 8.87 L27.80 9.59 L25.85 11.20 L26.19 12.33 L28.70 12.63 L28.81 13.42 L26.48 14.41 L26.48 15.59 L28.81 16.58 L28.70 17.37 L26.19 17.67 L25.85 18.80 L27.80 20.41 L27.47 21.13 L24.98 20.71 L24.34 21.71 L25.76 23.80 L25.24 24.40 L22.97 23.29 L22.07 24.07 L22.85 26.47 L22.18 26.90 L20.31 25.20 L19.23 25.69 L19.30 28.22 L18.53 28.44 L17.22 26.28 L16.05 26.45 L15.40 28.89 L14.60 28.89 L13.95 26.45 L12.78 26.28 L11.47 28.44 L10.70 28.22 L10.77 25.69 L9.69 25.20 L7.82 26.90 L7.15 26.47 L7.93 24.07 L7.03 23.29 L4.76 24.40 L4.24 23.80 L5.66 21.71 L5.02 20.71 L2.53 21.13 L2.20 20.41 L4.15 18.80 L3.81 17.67 L1.30 17.37 L1.19 16.58 L3.52 15.59 L3.52 14.41 L1.19 13.42 L1.30 12.63 L3.81 12.33 L4.15 11.20 L2.20 9.59 L2.53 8.87 L5.02 9.29 L5.66 8.29 L4.24 6.20 L4.76 5.60 L7.03 6.71 L7.93 5.93 L7.15 3.53 L7.82 3.10 L9.69 4.80 L10.77 4.31 L10.70 1.78 L11.47 1.56 L12.78 3.72Z M25.0 15 A10.0 10.0 0 1 0 5.0 15 A10.0 10.0 0 1 0 25.0 15Z"/><circle cx="15" cy="15" r="2.1" fill="none" stroke="#F7F5F1" stroke-width="1.4"/><path d="M17.60 15.00 L25.30 15.00 M13.70 17.25 L9.85 23.92 M13.70 12.75 L9.85 6.08" stroke="#F7F5F1" stroke-width="1.4" stroke-linecap="round"/></svg></button></div></header>
-  <section class="cal" aria-label="Kalender">
+  <section class="cal" aria-label="Kalender" style="margin-top:12px">
     <div class="cal-nav">
       <button class="round" id="prev" aria-label="Föregående månad"><svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#D2E4E9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <h1 class="month" id="month">Oktober 2026</h1>
@@ -1305,7 +1353,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
     <div class="cal-legend mk-legend"><span><i class="dot" style="display:block;width:4px;height:4px;border-radius:50%;background:var(--sky-hover)"></i>Dagbok ifylld</span><span><svg width="10" height="8" viewBox="0 0 20 16" fill="none" style="color:#C9578C"><path d="M1 14.5 7 7l4 4 8-9.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Session gjord</span></div>
   </section>
 
-  <div class="dayline"><h2 id="dayTitle">Idag</h2><span class="prog" id="prog">0 av 6 besvarade</span></div>
+  <div class="dayline"><h2 id="dayTitle">Idag</h2><span class="prog" id="prog" hidden>0 av 6 besvarade</span></div>
   <div id="cards" style="display:flex;flex-direction:column;gap:8px"></div>
   <div class="dayline hk-line"><h2 class="hk-title">Automatisk hälsodata</h2><span class="prog" id="hkSync"></span></div>
   <div class="hk-list" id="hkList"></div>
@@ -1376,7 +1424,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
         <div class="yn" id="fMed" role="radiogroup" aria-label="Har du tagit någon akutmedicin mot migrän?"><button class="pill" data-m="Ja">Ja</button><button class="pill" data-m="Nej">Nej</button></div></div>
       <div class="fnote" id="fNote" hidden role="status"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><p><b>Tack, ditt svar är sparat.</b>Checka in igen om en timme och berätta hur ditt mående har förändrats.</p></div>
     </div>
-    <div class="run-actions"><button class="btn pri" id="runClose">Klar</button></div>
+    <div class="run-actions"><button class="btn save" id="runClose">Spara</button></div>
   </div>
 </div>
 
@@ -2549,14 +2597,16 @@ const dMain=document.getElementById('dMain'), dStop=document.getElementById('dSt
 const PLAY='<svg width="15" height="17" viewBox="0 0 15 17" fill="#F7F5F1"><path d="M1 1v15l13-7.5L1 1Z"/></svg>';
 const TXT_IDLE='Tryck ”Starta session” för att påbörja din behandling. Intensiteten kommer då öka varsamt. Tryck sedan på ”Pausa ökning” när du känner ett starkt men behagligt stickande.';
 const TXT_RAMP='Intensiteten ökar varsamt. Tryck på ”Pausa ökning” när du känner ett starkt men behagligt stickande.';
-const TXT_HOLD='Koppla av medan stimuleringen pågår. Justera intensiteten om det behövs eller tryck på ”Återuppta ökning” för att fortsätta öka automatiskt.';
+const TXT_HOLD='Justera intensiteten om det behövs eller tryck på ”Återuppta ökning” för att fortsätta öka automatiskt.';
 let dTick=0;
 const dSeg=document.getElementById('dSeg'); dSeg.innerHTML='<i></i>'.repeat(50);
 let segOn=-1;
 function dPaint(){
   const el=daily?daily.elapsed:0, lvl=daily?daily.level:0;
   document.getElementById('dTime').textContent=mmss(DTOTAL-el);
-  dArc.style.strokeDashoffset=DC*(el/DTOTAL); hPaint(); // full pink ring that empties as time runs out
+  dArc.style.strokeDashoffset=DC*(el/DTOTAL); hPaint();
+  // phase label: warm-up for the first 2 minutes, then stimulation
+  const ph=el<120?'Uppvärmning':'Stimulering', pt=document.getElementById('dPhaseT'); if(pt.textContent!==ph){ pt.textContent=ph; document.getElementById('dPhase').classList.toggle('hold',el>=120); } // full pink ring that empties as time runs out
   const pc=Math.floor(lvl/2)*2; // intensity steps are always even
   document.getElementById('dIv').textContent=pc+'%';
   const n=Math.floor(lvl/2);
@@ -2570,8 +2620,9 @@ function setRunning(on){
   document.querySelector('.tabbar').hidden=on;
   dStop.classList.toggle('live',on);
 }
-function setPhase(hold){ document.getElementById('dPhaseT').textContent=hold?'Stimulering':'Uppvärmning'; document.getElementById('dAdj').hidden=!hold; }
+function setPhase(hold){ document.getElementById('dAdj').hidden=!hold; } // the phase label follows the clock, see dPaint
 function dReset(){
+  if(typeof dHideDone==='function') dHideDone();
   cancelAnimationFrame(dTick); closeHelp(true); daily=null; segOn=-1;
   dMain.className='dbtn main'; dMain.disabled=false; dMain.innerHTML='Starta session '+PLAY; dStop.disabled=true; dInstr.textContent=TXT_IDLE;
   dFast.hidden=true; dFast.textContent='Snabbspola (demo)'; setRunning(false); setPhase(false);
@@ -3184,7 +3235,7 @@ document.getElementById('dEnd').addEventListener('click',()=>{
 });
 // prototype shortcut: while an acute session runs, jump to 5 s before the end
 const protoSkip=document.getElementById('protoSkip');
-function syncSkip(){ protoSkip.hidden=!(daily&&dailyOpen&&dKind&&dKind.name!=='Daglig session'); }
+function syncSkip(){ protoSkip.hidden=!(daily&&dailyOpen&&dKind); } // prototype: jump to 5 s left in both daily and acute sessions
 protoSkip.addEventListener('click',()=>{ if(!daily) return; daily.elapsed=Math.max(daily.elapsed,DTOTAL-5); daily.paused=false; daily.last=performance.now(); });
 setInterval(syncSkip,300);
 dFast.addEventListener('click',()=>{daily.speed=daily.speed===1?60:1; dFast.textContent=daily.speed===1?'Snabbspola (demo)':'Normal hastighet';});
@@ -3192,16 +3243,28 @@ function dFinish(){
   cancelAnimationFrame(dTick); closeHelp(true);
   const k=dKind;
   ses={name:k.name,min:k.min,total:DTOTAL,elapsed:DTOTAL,paused:false,speed:1,last:performance.now()};
-  daily=null; leaveDaily();
+  const isDaily=k.name==='Daglig session';
+  daily=null; if(!isDaily) leaveDaily();
   // reuse the completion screen
   store.sessions=store.sessions||{}; const d=new Date();
   const rec={name:k.name,min:k.min,at:String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'),complete:true};
   (store.sessions[iso(today)]=store.sessions[iso(today)]||[]).push(rec); persist(); renderToday();
+  if(isDaily){ dShowDone(); return; } // daily: the session screen itself turns into the confirmation
   if(k.name!=='Daglig session') showFollow(rec,true,k.min); // acute: how did the headache change?
   else { document.getElementById('runFollow').hidden=true; document.getElementById('runActive').hidden=true; document.getElementById('runDone').hidden=false;
     document.getElementById('doneText').hidden=false; document.getElementById('doneText').textContent='Bra jobbat. '+k.name+', '+k.min+' min.'; }
   run.hidden=false; requestAnimationFrame(()=>run.classList.add('show'));
 }
+// daily session finished: ring fills green with a check, short confirmation and a close button
+function dShowDone(){
+  const v=vDaily.querySelector('.daily'); setRunning(false); setPhase(false); v.classList.add('done');
+  ['dBatt','dPhase','dConfirm','dInstr','dStop'].forEach(id=>document.getElementById(id).hidden=true);
+  document.getElementById('dBtns').hidden=false; document.getElementById('dDone').hidden=false; document.getElementById('dClose').hidden=false; document.getElementById('dBack').hidden=true;
+  dArc.style.strokeDashoffset=0; screenEl.scrollTop=0;
+}
+function dHideDone(){ const v=vDaily.querySelector('.daily'); v.classList.remove('done');
+  ['dDone','dClose'].forEach(id=>document.getElementById(id).hidden=true); ['dInstr','dStop'].forEach(id=>document.getElementById(id).hidden=false); }
+document.getElementById('dClose').addEventListener('click',()=>{ dHideDone(); leaveDaily(); });
 document.getElementById('runPause').addEventListener('click',ev=>{
   ses.paused=!ses.paused; ev.currentTarget.textContent=ses.paused?'Fortsätt':'Pausa';
   document.getElementById('runEyebrow').textContent=ses.paused?'Pausad':'Pågående session';
@@ -3232,6 +3295,7 @@ buildCards(); renderCal(); renderCards(true);
   ['pointerup','pointercancel','dragstart','scroll'].forEach(t=>document.addEventListener(t,up,{passive:true,capture:true}));
   document.addEventListener('touchstart',()=>{},{passive:true}); // lets iPhone show :active while pressed
 })();
+
 </script>
 
 </body></html>
