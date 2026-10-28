@@ -286,11 +286,11 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .chart{display:grid;grid-template-columns:auto 1fr;column-gap:14px;padding-left:4px;margin-top:36px}
 .chart .yl{display:flex;flex-direction:column;justify-content:space-between;font-size:14px;line-height:16px;color:var(--cloud);text-align:right;height:196px;transform:translateY(-8px)}
 .chart .plot{--n:31;position:relative;height:180px;background-image:linear-gradient(var(--faint) 1px,transparent 1px);background-size:100% 36px;box-shadow:inset -1px -1px 0 var(--faint);display:grid;grid-template-columns:repeat(var(--n),1fr);align-items:end;column-gap:1.6px}
-.chart .plot i{display:block;background:linear-gradient(rgba(15,21,37,0),rgba(15,21,37,.75)) bottom/100% 180px no-repeat,linear-gradient(90deg,#5463CC,#3C4CBF 50%,#5463CC);box-shadow:none;border-radius:1px 1px 0 0;transition:height var(--t-base) var(--ease)}
-.chart .plot i.zero{height:2px!important;box-shadow:none;background:linear-gradient(90deg,#5463CC,#3C4CBF 50%,#5463CC);border-radius:1px}
+.chart .plot i{display:block;background:linear-gradient(rgba(15,21,37,0),rgba(15,21,37,.35)) bottom/100% 180px no-repeat,linear-gradient(90deg,#6A78D6,#3C4CBF 50%,#6A78D6);box-shadow:none;border-radius:1px 1px 0 0;transition:height var(--t-base) var(--ease)}
+.chart .plot i.zero{height:2px!important;box-shadow:none;background:linear-gradient(90deg,#6A78D6,#3C4CBF 50%,#6A78D6);border-radius:1px}
 .chart .plot i.none{background:none;box-shadow:none}
 .chart .plot{overflow:visible;touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
-.chart .plot i.hl{background:linear-gradient(rgba(15,21,37,0),rgba(15,21,37,.75)) bottom/100% 180px no-repeat,linear-gradient(90deg,#8A98FF,#6272F5 50%,#8A98FF);box-shadow:none}
+.chart .plot i.hl{background:linear-gradient(rgba(15,21,37,0),rgba(15,21,37,.35)) bottom/100% 180px no-repeat,linear-gradient(90deg,#8A98FF,#6272F5 50%,#8A98FF);box-shadow:none}
 .chart .plot i.zero.hl{background:#6272F5}
 .chart .plot i.none.hl{background:rgba(237,241,244,.12);box-shadow:none}
 
@@ -729,7 +729,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .cmp-lab span{display:flex;align-items:center;gap:6px}
 .cmp-lab i{width:8px;height:8px;border-radius:50%;display:block}
 .cmp-lab i.ln{width:12px;height:2px;border-radius:1px}
-.cmp-lab i.bar{width:4px;height:12px;border-radius:1px;background:linear-gradient(90deg,#5463CC,#3C4CBF 50%,#5463CC)}
+.cmp-lab i.bar{width:4px;height:12px;border-radius:1px;background:linear-gradient(90deg,#6A78D6,#3C4CBF 50%,#6A78D6)}
 .cmp-svg.fadein,.fadein{animation:cmpFade .5s cubic-bezier(.22,1,.36,1) .08s both}
 @keyframes cmpFade{from{opacity:0;transform:translateY(6px)}}
 @media (prefers-reduced-motion:reduce){.fadein{animation:none}}
@@ -756,7 +756,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .cd-k i{display:block;flex:none}
 .cd-k i.dt{width:8px;height:8px;border-radius:50%;background:#F7F5F1}
 .cd-k i.ln{width:12px;height:2px;border-radius:1px;background:#F7F5F1}
-.cd-k i.bar{width:4px;height:12px;border-radius:1px;background:linear-gradient(90deg,#5463CC,#3C4CBF 50%,#5463CC)}
+.cd-k i.bar{width:4px;height:12px;border-radius:1px;background:linear-gradient(90deg,#6A78D6,#3C4CBF 50%,#6A78D6)}
 .cd-v{color:#F7F5F1;font-weight:500;font-variant-numeric:tabular-nums}
 .cd-v.mu{color:#8C99AD;font-weight:400}
 .cmp-cap b{color:#F7F5F1;font-weight:600}
@@ -2291,7 +2291,7 @@ function cmpChart(){
   const axY=(c.yn?rowY:T+ph)+(c.yn?26:20), H=axY+6;
   const vals=days.map(e=>e?c.val(e):null), nums=vals.filter(v=>v!=null);
   const max=c.yn?1:(c.max?c.max(nums.length?nums:[0]):Math.max(1,...nums));
-  const x=i=>L+i*cw+cw/2; let g='<defs><linearGradient id="barGlow" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#5463CC"/><stop offset=".5" stop-color="#3C4CBF"/><stop offset="1" stop-color="#5463CC"/></linearGradient><linearGradient id="barGlowHi" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#8A98FF"/><stop offset=".5" stop-color="#6272F5"/><stop offset="1" stop-color="#8A98FF"/></linearGradient><linearGradient id="barFadeG" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="'+T+'" y2="'+(T+ph)+'"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity=".25"/></linearGradient><linearGradient id="barShade" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="'+T+'" y2="'+(T+ph)+'"><stop offset="0" stop-color="#0F1525" stop-opacity="0"/><stop offset="1" stop-color="#0F1525" stop-opacity=".75"/></linearGradient><mask id="barFade" maskUnits="userSpaceOnUse" x="0" y="0" width="'+W+'" height="'+H+'"><rect x="0" y="'+T+'" width="'+W+'" height="'+ph+'" fill="url(#barFadeG)"/></mask></defs>'; // bars: deep blue in the middle, lighter towards the edges
+  const x=i=>L+i*cw+cw/2; let g='<defs><linearGradient id="barGlow" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#6A78D6"/><stop offset=".5" stop-color="#3C4CBF"/><stop offset="1" stop-color="#6A78D6"/></linearGradient><linearGradient id="barGlowHi" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#8A98FF"/><stop offset=".5" stop-color="#6272F5"/><stop offset="1" stop-color="#8A98FF"/></linearGradient><linearGradient id="barFadeG" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="'+T+'" y2="'+(T+ph)+'"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity=".25"/></linearGradient><linearGradient id="barShade" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="'+T+'" y2="'+(T+ph)+'"><stop offset="0" stop-color="#0F1525" stop-opacity="0"/><stop offset="1" stop-color="#0F1525" stop-opacity=".35"/></linearGradient><mask id="barFade" maskUnits="userSpaceOnUse" x="0" y="0" width="'+W+'" height="'+H+'"><rect x="0" y="'+T+'" width="'+W+'" height="'+ph+'" fill="url(#barFadeG)"/></mask></defs>'; // bars: deep blue in the middle, lighter towards the edges
   // selected day: a soft column with a date tag above
   const sx=x(cmpSel), selD=new Date(hemMonth.getFullYear(),hemMonth.getMonth(),cmpSel+1), tag=selD.getDate()+' '+MONTHS[selD.getMonth()].slice(0,3).toLowerCase();
   const colTop=T-4, colBot=(c.yn?rowY+8:T+ph)+2;
