@@ -3159,7 +3159,7 @@ document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=
   go(b.dataset.go);
 }));
 // Hem shortcuts: "Starta dagens session" and the Session tile open the daily session
-document.querySelectorAll('[data-daily]').forEach(b=>b.addEventListener('click',()=>{ if(current!=='Relief') go('Relief'); if(!dailyOpen) openDaily('Hem'); }));
+document.querySelectorAll('[data-daily]').forEach(b=>b.addEventListener('click',()=>{ if(current!=='Relief') go('Relief'); }));
 // Avsluta: confirm in a popup; the intensity increase is paused while it is open
 const cPop=document.getElementById('cPop'), cBg=document.getElementById('cBg'); let wasRamping=false;
 function openConfirm(){
@@ -3264,7 +3264,7 @@ function dShowDone(){
 }
 function dHideDone(){ const v=vDaily.querySelector('.daily'); v.classList.remove('done');
   ['dDone','dClose'].forEach(id=>document.getElementById(id).hidden=true); ['dInstr','dStop'].forEach(id=>document.getElementById(id).hidden=false); }
-document.getElementById('dClose').addEventListener('click',()=>{ dHideDone(); leaveDaily(); });
+document.getElementById('dClose').addEventListener('click',()=>{ dHideDone(); closeDaily(); go('Hem'); }); // a finished daily session always lands on Hem, where Din dag shows it done
 document.getElementById('runPause').addEventListener('click',ev=>{
   ses.paused=!ses.paused; ev.currentTarget.textContent=ses.paused?'Fortsätt':'Pausa';
   document.getElementById('runEyebrow').textContent=ses.paused?'Pausad':'Pågående session';
